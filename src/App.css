@@ -1,0 +1,38 @@
+* {
+  font-family: "imprima";
+}
+
+.hero {
+  background-image: url(./assets/bgii.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 85vh;
+}
+
+.hero > header > * {
+  width: 33%;
+}
+
+.hero nav a {
+  text-decoration: none;
+  color: inherit;
+  font-variant: small-caps;
+}
+
+.booking-panel {
+  top: -75px;
+  width: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.booking-form .date-picker {
+  width: 7.5rem;
+}
+
+.invisible {
+  visibility: hidden;
+}
