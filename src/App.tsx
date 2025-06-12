@@ -28,7 +28,7 @@ const App = () => {
         <Routes>
             <Route path="/" element={<Home booking={booking} setBooking={setBooking} />} />
             <Route path="/summary" element={<BookingSummary />} />
-            <Route path="/complete-booking" element={<CompleteBooking booking={booking} />} />
+            <Route path="/complete-booking" element={<CompleteBooking />} />
         </Routes>
     );
 };
