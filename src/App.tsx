@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import BookingSummary from "./BookingSummary";
 import CompleteBooking from "./CompleteBooking";
+import ThankYou from "./ThankYou";
 
 export type BookingDetails = {
     checkInDate: Date | null;
@@ -11,7 +12,7 @@ export type BookingDetails = {
     children: number;
     rooms: number;
     childrenAges: string[];
-    totalPrice?: 0, // Initalize totalPrice
+    totalPrice?: number, // Initalize totalPrice
 };
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
             <Route path="/" element={<Home booking={booking} setBooking={setBooking} />} />
             <Route path="/summary" element={<BookingSummary />} />
             <Route path="/complete-booking" element={<CompleteBooking />} />
+            <Route path="/thank-you" element={<ThankYou />} />
         </Routes>
     );
 };

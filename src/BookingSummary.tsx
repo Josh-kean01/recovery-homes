@@ -11,7 +11,7 @@ const BookingSummary = () => {
         return <p>Error: Booking information is missing.</p>;
     }
 
-    const { checkInDate, checkOutDate, adults, children, rooms, childrenAges, totalPrice } =
+    const { checkInDate, checkOutDate, adults, children, rooms, childrenAges } =
         bookingData;
 
     // Sample Pricing Logic
@@ -81,12 +81,12 @@ const BookingSummary = () => {
                             </ul>
                         </div>
 
-
-                        {/* Next Button */}
-                        <Link to="/complete-booking" state={{ ...bookingData, totalPrice: totalCost, }} className="btn btn-success">
-                            Complete Your Booking
-                        </Link>
-
+                        <div className="d-flex justify-content-end mt-3">
+                            {/* Next Button */}
+                            <Link to="/complete-booking" state={{ ...bookingData, totalPrice: totalCost, }} className="btn btn-success">
+                                Complete Your Booking
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

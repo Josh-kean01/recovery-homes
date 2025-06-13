@@ -28,8 +28,7 @@ const GuestSelector = ({ booking, setBooking }: GuestSelectorProps) => {
     const generateLabel = () => {
         const parts = [];
         if (adults > 0) parts.push(`${adults} Adult${adults > 1 ? "s" : ""}`);
-        if (children > 0)
-            parts.push(`${children} Child${children !== 1 ? "ren" : ""}`);
+        if (children > 0) parts.push(`${children} Child${children !== 1 ? "ren" : ""}`);
         parts.push(`${rooms} Room${rooms > 1 ? "s" : ""}`);
         return parts.join(", ");
     };

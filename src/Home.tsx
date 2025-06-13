@@ -14,7 +14,7 @@ type HomeProps = {
 const Home = ({ booking, setBooking }: HomeProps) => {
   const navigate = useNavigate();
 
-  const { checkInDate, checkOutDate, adults, children, rooms } = booking;
+  const { checkInDate, checkOutDate } = booking;
 
   const shouldShowAlert = checkInDate !== null && checkOutDate !== null;
 
