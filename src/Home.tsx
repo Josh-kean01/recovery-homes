@@ -53,13 +53,13 @@ const Home = ({ booking, setBooking }: HomeProps) => {
       <div className="position-relative my-3">
         <div className="booking-panel container position-absolute start-50 translate-middle-x rounded">
           <div className="row">
-            <div className="col-lg-6 col-12 d-flex justify-content-start align-items-center">
+            <div className="col-xl-6 col-12 d-flex justify-content-start align-items-center">
               <BookingForm booking={booking} setBooking={setBooking} />
             </div>
-            <div className="col-lg-4 col-8 d-flex justify-content-start align-items-center">
+            <div className="col-xl-4 col-8 d-flex justify-content-start align-items-center">
               <GuestSelector booking={booking} setBooking={setBooking} />
             </div>
-            <div className="col-lg-2 col-4 d-flex justify-content-end align-items-center">
+            <div className="col-xl-2 col-4 d-flex justify-content-end align-items-center">
               <div className="py-4">
                 <p className="mb-2 invisible">...</p>
                 <div className="btn btn-success px-2 px-md-auto" onClick={handleViewRates}>
