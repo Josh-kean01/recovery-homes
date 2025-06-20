@@ -2,6 +2,8 @@ import { Link, useLocation, } from "react-router-dom";
 import type { BookingDetails } from "./App";
 import { format } from "date-fns";
 import image from "./assets/Image1.png"; // Replace with your actual image path
+import { subDays } from "date-fns";
+
 
 const BookingSummary = () => {
     const location = useLocation();
@@ -11,7 +13,7 @@ const BookingSummary = () => {
         return <p>Error: Booking information is missing.</p>;
     }
 
-    const { checkInDate, checkOutDate, adults, children, rooms, childrenAges } =
+    const { checkInDate, checkOutDate, guests, surgeryDate, guestNights } =
         bookingData;
 
     // Sample Pricing Logic
@@ -21,6 +23,7 @@ const BookingSummary = () => {
     const extraNight = 1; // As per “pre-arrival extra night” logic
     const totalNights = nights + extraNight;
     const totalCost = totalNights * pricePerNight;
+    const preArrivalDate = subDays(checkInDate, 1);
 
     return (
         <div className="container mt-5">
@@ -63,12 +66,12 @@ const BookingSummary = () => {
                         <div className="card p-4 shadow-sm">
                             <h5>Retreat Details:</h5>
                             <p>
+                                <strong>Pre-Arrival:</strong> {format(preArrivalDate, "PPP")} <br />
                                 <strong>Check-in:</strong> {format(checkInDate, "PPP")} <br />
+                                <strong>Surgery:</strong> {surgeryDate ? format(surgeryDate, "PPP") : "N/A"} <br />
                                 <strong>Check-out:</strong> {format(checkOutDate, "PPP")} <br />
-                                <strong>Adults:</strong> {adults} <br />
-                                <strong>Children:</strong> {children} ({childrenAges.join(", ")}){" "}
-                                <br />
-                                <strong>Rooms:</strong> {rooms}
+                                <strong>Guests:</strong> {guests} <br />
+                                <strong>Duration of nights for Guests:</strong>{guestNights} <br />
                             </p>
 
                             <h6>Pricing:</h6>

@@ -8,21 +8,24 @@ import ThankYou from "./ThankYou";
 export type BookingDetails = {
     checkInDate: Date | null;
     checkOutDate: Date | null;
-    adults: number;
-    children: number;
+    surgeryDate?: Date | null; // Optional surgery date
+    // adults: number;
+    // children: number;
     rooms: number;
-    childrenAges: string[];
+    // childrenAges: string[];
     totalPrice?: number, // Initalize totalPrice
+    guests: number;
+    guestNights: number;
 };
 
 const App = () => {
     const [booking, setBooking] = useState<BookingDetails>({
         checkInDate: null,
+        surgeryDate: null, // Optional surgery date
         checkOutDate: null,
-        adults: 0,
-        children: 0,
         rooms: 1,
-        childrenAges: [],
+        guests: 0,
+        guestNights: 1,
     });
 
     return (

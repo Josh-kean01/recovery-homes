@@ -8,66 +8,60 @@ type GuestSelectorProps = {
     setBooking: React.Dispatch<React.SetStateAction<BookingDetails>>;
 };
 
+// ... your existing handlers
 const GuestSelector = ({ booking, setBooking }: GuestSelectorProps) => {
     const [showModal, setShowModal] = useState(false);
-    const { adults, children, rooms, childrenAges } = booking;
-
-    const handleChildrenChange = (count: number) => {
-        const newAges = Array(count)
-            .fill("")
-            .map((_, idx) => childrenAges[idx] || "");
-        setBooking((prev) => ({ ...prev, children: count, childrenAges: newAges }));
-    };
-
-    const handleAgeChange = (index: number, value: string) => {
-        const updated = [...childrenAges];
-        updated[index] = value;
-        setBooking((prev) => ({ ...prev, childrenAges: updated }));
-    };
+    const { guests, guestNights } = booking;
+    const [wantsGuests, setWantsGuests] = useState<boolean>(false); // NEW toggle state
 
     const generateLabel = () => {
-        const parts = [];
-        if (adults > 0) parts.push(`${adults} Adult${adults > 1 ? "s" : ""}`);
-        if (children > 0) parts.push(`${children} Child${children !== 1 ? "ren" : ""}`);
-        parts.push(`${rooms} Room${rooms > 1 ? "s" : ""}`);
-        return parts.join(", ");
+        if (!wantsGuests) return "No guest selected";
+
+        if ((guests ?? 0) === 0 && (guestNights ?? 0) <= 1) {
+            return "Select guests";
+        }
+
+        return `${guests ?? 0} Guest${guests === 1 ? "" : "s"}, ${guestNights ?? 1} Night${guestNights === 1 ? "" : "s"}`;
     };
 
-    const renderAgeSelect = (index: number) => (
-        <div key={index}>
-            <label htmlFor={`child-age-select-${index}`} className="visually-hidden">
-                Age of child {index + 1}
-            </label>
-            <Form.Select
-                id={`child-age-select-${index}`}
-                aria-label={`Age of child ${index + 1}`}
-                title={`Age of child ${index + 1}`}
-                value={childrenAges[index] || ""}
-                onChange={(e) => handleAgeChange(index, e.target.value)}
-                className="my-1"
-            >
-                <option value="">Select age</option>
-                {Array.from({ length: 18 }, (_, i) => (
-                    <option key={i} value={i}>
-                        {i}
-                    </option>
-                ))}
-            </Form.Select>
-        </div>
-    );
 
     return (
-        <div className="guest-selector">
-            <p className="mb-0 text-muted" style={{ fontVariant: "small-caps" }}>
-                Rooms & Guests
-            </p>
+        <div className="guest-selector p-lg-4 py-2">
+            <Form.Group controlId="guestSwitch" className="mb-2">
+                <Form.Check
+                    type="switch"
+                    id="add-guests-switch"
+                    label="Are you having guests?"
+                    checked={wantsGuests}
+                    onChange={() => {
+                        const wants = !wantsGuests;
+                        setWantsGuests(wants);
+
+                        if (!wants) {
+                            setBooking((prev) => ({
+                                ...prev,
+                                guests: 0,
+                                guestNights: 1,
+                            }));
+                        } else {
+                            setShowModal(true); // optional auto-open
+                        }
+                    }}
+                    className="small"
+
+                />
+            </Form.Group>
+
             <div
-                className="guest-label d-flex align-items-center border rounded p-2"
-                onClick={() => setShowModal(true)}
-                style={{ cursor: "pointer" }}
+                className={`guest-label d-flex align-items-center border rounded p-2 ${wantsGuests ? "" : "bg-light text-muted"
+                    }`}
+                onClick={() => {
+                    if (wantsGuests) setShowModal(true); // only allow opening if wantsGuests is true
+                }}
+                style={{ cursor: wantsGuests ? "pointer" : "not-allowed" }}
             >
                 <FaUserFriends className="me-2" />
-                <span>{generateLabel()}</span>
+                <span className="small">{generateLabel()}</span>
             </div>
 
             <Modal
@@ -76,29 +70,34 @@ const GuestSelector = ({ booking, setBooking }: GuestSelectorProps) => {
                 onHide={() => setShowModal(false)}
                 centered
             >
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        <span className="small">Select Guests and Rooms</span>
+                <Modal.Header closeButton className="py-2">
+                    <Modal.Title className="p-0">
+                        <span className="fs-6">Select Guest Info</span>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="guest-group mb-3">
-                        <label>Adults</label>
+                        <label>Total Guests</label>
                         <div className="counter">
                             <button
+                                className="btn btn-success px-3"
                                 onClick={() =>
                                     setBooking((prev) => ({
                                         ...prev,
-                                        adults: Math.max(0, prev.adults - 1),
+                                        guests: Math.max(0, (prev.guests || 0) - 1),
                                     }))
                                 }
                             >
                                 -
                             </button>
-                            <span>{adults}</span>
+                            <span className="mx-2 fs-5">{booking.guests || 0}</span>
                             <button
+                                className="btn btn-success px-3"
                                 onClick={() =>
-                                    setBooking((prev) => ({ ...prev, adults: prev.adults + 1 }))
+                                    setBooking((prev) => ({
+                                        ...prev,
+                                        guests: (prev.guests || 0) + 1,
+                                    }))
                                 }
                             >
                                 +
@@ -107,42 +106,27 @@ const GuestSelector = ({ booking, setBooking }: GuestSelectorProps) => {
                     </div>
 
                     <div className="guest-group mb-3">
-                        <label>Children</label>
+                        <label>Number of guestNights</label>
                         <div className="counter">
                             <button
-                                onClick={() => handleChildrenChange(Math.max(0, children - 1))}
-                            >
-                                -
-                            </button>
-                            <span>{children}</span>
-                            <button onClick={() => handleChildrenChange(children + 1)}>
-                                +
-                            </button>
-                        </div>
-                        {children > 0 && (
-                            <div className="mt-2">
-                                {childrenAges.map((_, idx) => renderAgeSelect(idx))}
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="guest-group mb-3">
-                        <label>Rooms</label>
-                        <div className="counter">
-                            <button
+                                className="btn btn-success px-3"
                                 onClick={() =>
                                     setBooking((prev) => ({
                                         ...prev,
-                                        rooms: Math.max(1, prev.rooms - 1),
+                                        guestNights: Math.max(1, (prev.guestNights || 0) - 1)
                                     }))
                                 }
                             >
                                 -
                             </button>
-                            <span>{rooms}</span>
+                            <span className="mx-2 fs-5">{booking.guestNights || 1}</span>
                             <button
+                                className="btn btn-success px-3"
                                 onClick={() =>
-                                    setBooking((prev) => ({ ...prev, rooms: prev.rooms + 1 }))
+                                    setBooking((prev) => ({
+                                        ...prev,
+                                        guestNights: (prev.guestNights || 0) + 1,
+                                    }))
                                 }
                             >
                                 +
@@ -150,7 +134,8 @@ const GuestSelector = ({ booking, setBooking }: GuestSelectorProps) => {
                         </div>
                     </div>
                 </Modal.Body>
-                <Modal.Footer>
+
+                <Modal.Footer className="py-1">
                     <Button variant="success" onClick={() => setShowModal(false)}>
                         Done
                     </Button>

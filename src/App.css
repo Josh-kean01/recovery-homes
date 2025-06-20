@@ -1,5 +1,10 @@
 * {
-  font-family: "imprima";
+  /* font-family: "imprima"; */
+}
+
+*::placeholder,
+*:disabled {
+  font-size: small;
 }
 
 .hero {
@@ -22,17 +27,36 @@
 
 .booking-panel {
   top: -75px;
-  width: 50%;
+  width: 75%;
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
 
+.homepage .alert {
+  width: 75%;
+}
+
+@media screen and (max-width: 768px) {
+  .booking-panel {
+    width: 90%;
+    top: -150px;
+  }
+
+  .homepage .alert {
+    width: 90%;
+  }
+}
+
 .booking-form .date-picker {
-  width: 7.5rem;
+  /* width: 7.5rem; */
 }
 
 .invisible {
   visibility: hidden;
+}
+
+.modal-header .btn-close {
+  transform: scale(0.7); /* Shrinks the button to 70% size */
 }

@@ -9,14 +9,10 @@ type BookingFormProps = {
 };
 
 const BookingForm = ({ booking, setBooking }: BookingFormProps) => {
-    const { checkInDate, checkOutDate } = booking;
+    const { checkInDate, surgeryDate, checkOutDate } = booking;
 
-    const handleCheckInChange = (date: Date | null) => {
-        setBooking((prev) => ({ ...prev, checkInDate: date }));
-    };
-
-    const handleCheckOutChange = (date: Date | null) => {
-        setBooking((prev) => ({ ...prev, checkOutDate: date }));
+    const handleChange = (field: keyof BookingDetails, date: Date | null) => {
+        setBooking((prev) => ({ ...prev, [field]: date }));
     };
 
     const getNightCount = () => {
@@ -25,13 +21,13 @@ const BookingForm = ({ booking, setBooking }: BookingFormProps) => {
             const nights = Math.ceil(
                 (checkOutDate.getTime() - checkInDate.getTime()) / msPerDay
             );
-            return nights + 1; // +1 for pre-arrival
+            return nights + 1;
         }
         return 0;
     };
 
     return (
-        <div className="booking-form p-4 rounded">
+        <div className="booking-form p-lg-4 py-2 pt-3 rounded w-100">
             <label
                 className="form-label d-flex align-items-center text-muted"
                 style={{ fontVariant: "small-caps" }}
@@ -43,30 +39,51 @@ const BookingForm = ({ booking, setBooking }: BookingFormProps) => {
                 )}
             </label>
 
-            <div className="d-flex align-items-center">
+            <div className="d-flex gap-lg-2 w-100">
+                {/* Check-in Date */}
                 <DatePicker
                     selected={checkInDate}
-                    onChange={handleCheckInChange}
+                    onChange={(date) => handleChange("checkInDate", date)}
                     selectsStart
                     startDate={checkInDate}
                     endDate={checkOutDate}
                     className="form-control date-picker"
                     placeholderText="Check-in"
                     dateFormat="eee, MMM d"
+                    maxDate={surgeryDate ? new Date(surgeryDate.getTime() - 86400000) : undefined}
                 />
-                <div className="p-2">
-                    <FaLongArrowAltRight />
+
+                <div className="d-flex align-items-center justify-content-center">
+                    <FaLongArrowAltRight className="text-muted px-1 px-md-0 mx-md-2" />
                 </div>
+
+                {/* Surgery Date */}
+                <DatePicker
+                    selected={surgeryDate}
+                    onChange={(date) => handleChange("surgeryDate", date)}
+                    className="form-control date-picker"
+                    placeholderText="Surgery Date"
+                    dateFormat="eee, MMM d"
+                    minDate={checkInDate ? new Date(checkInDate.getTime() + 86400000) : undefined}
+                    maxDate={checkOutDate ? new Date(checkOutDate.getTime() - 86400000) : undefined}
+                // disabled={!checkInDate}
+                />
+
+                <div className="d-flex align-items-center justify-content-center">
+                    <FaLongArrowAltRight className="text-muted px-1 px-md-0 mx-md-2" />
+                </div>
+
+                {/* Check-out Date */}
                 <DatePicker
                     selected={checkOutDate}
-                    onChange={handleCheckOutChange}
+                    onChange={(date) => handleChange("checkOutDate", date)}
                     selectsEnd
                     startDate={checkInDate}
                     endDate={checkOutDate}
-                    minDate={checkInDate ?? undefined}
                     className="form-control date-picker"
                     placeholderText="Check-out"
                     dateFormat="eee, MMM d"
+                    minDate={surgeryDate ? new Date(surgeryDate.getTime() + 86400000) : checkInDate ?? undefined}
                 />
             </div>
         </div>
