@@ -13,9 +13,8 @@ const CompleteBooking = () => {
     const {
         checkInDate,
         checkOutDate,
-        adults,
-        children,
-        childrenAges,
+        guests,
+        guestNights,
         rooms,
         totalPrice,
     } = booking;
@@ -37,13 +36,10 @@ const CompleteBooking = () => {
                         <strong>Check-in:</strong> {checkInDate?.toDateString()} <br />
                         <strong>Check-out:</strong> {checkOutDate?.toDateString()} <br />
                         <strong>Rooms:</strong> {rooms} <br />
-                        <strong>Guests:</strong> {adults} Adult(s), {children} Children
+                        <strong>Guests:</strong> {guests} Guest(s), 
+                        <strong>GuestsNight:</strong> {guestNights} Guest(s) stay, 
                     </p>
-                    {children > 0 && (
-                        <p>
-                            <strong>Children's Ages:</strong> {childrenAges?.join(', ')}
-                        </p>
-                    )}
+
                     <p className="mt-3">
                         <strong>Total Price:</strong>{' '}
                         {totalPrice ? `$${totalPrice}` : '---'}
