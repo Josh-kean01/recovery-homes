@@ -3,7 +3,8 @@
 }
 
 *::placeholder,
-*:disabled {
+*:disabled,
+.date-picker {
   font-size: small;
 }
 
@@ -45,12 +46,8 @@
   }
 
   .homepage .alert {
-    width: 90%;
+    width: 90% !important;
   }
-}
-
-.booking-form .date-picker {
-  /* width: 7.5rem; */
 }
 
 .invisible {

@@ -51,6 +51,8 @@ const BookingForm = ({ booking, setBooking }: BookingFormProps) => {
                     placeholderText="Check-in"
                     dateFormat="eee, MMM d"
                     maxDate={surgeryDate ? new Date(surgeryDate.getTime() - 86400000) : undefined}
+                    popperPlacement="bottom-end"
+
                 />
 
                 <div className="d-flex align-items-center justify-content-center">
@@ -84,6 +86,8 @@ const BookingForm = ({ booking, setBooking }: BookingFormProps) => {
                     placeholderText="Check-out"
                     dateFormat="eee, MMM d"
                     minDate={surgeryDate ? new Date(surgeryDate.getTime() + 86400000) : checkInDate ?? undefined}
+                    popperPlacement="bottom-start"
+
                 />
             </div>
         </div>
