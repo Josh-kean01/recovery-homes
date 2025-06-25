@@ -26,8 +26,8 @@ const GuestSelector = ({ booking, setBooking }: GuestSelectorProps) => {
 
 
     return (
-        <div className="guest-selector p-lg-4 py-2">
-            <Form.Group controlId="guestSwitch" className="mb-2">
+        <div className="guest-selector position-relative">
+            <Form.Group controlId="guestSwitch" className="">
                 <Form.Check
                     type="switch"
                     id="add-guests-switch"

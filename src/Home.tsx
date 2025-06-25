@@ -2,9 +2,14 @@
 import type { BookingDetails } from "./App";
 import { useNavigate } from "react-router-dom";
 import BookingForm from "./BookingForm";
-import GuestSelector from "./GuestSelector";
-import logo from "./assets/logoWHRH.svg";
+import RoomTile from "./components/RoomTile";
 import "./App.css";
+import Header from "./components/Header";
+import { BsFillCalendarRangeFill } from "react-icons/bs";
+import roomtile1 from "./assets/roomtile-1.jpg";
+import roomtile2 from "./assets/roomtile-2.jpg";
+import Testimonials from "./components/Testimonials";
+// import Select from "react-select";
 
 type HomeProps = {
   booking: BookingDetails;
@@ -14,10 +19,6 @@ type HomeProps = {
 const Home = ({ booking, setBooking }: HomeProps) => {
   const navigate = useNavigate();
 
-  const { checkInDate, checkOutDate } = booking;
-
-  const shouldShowAlert = checkInDate !== null && checkOutDate !== null;
-
   const handleViewRates = () => {
     navigate("/summary", {
       state: booking,
@@ -26,59 +27,85 @@ const Home = ({ booking, setBooking }: HomeProps) => {
 
   return (
     <div className="homepage position-relative">
-      <div className="hero text-light p-5 d-flex flex-column align-items-center justify-content-center position-relative">
-        <header className="d-flex justify-content-between w-100 position-absolute sticky-top top-0 p-2 p-md-4 shadow-sm">
-          <div
-            className="logo d-flex flex-column justify-content-center"
-            style={{ width: "75px" }}
-          >
-            <img src={logo} alt="Logo" className="w-100" />
-          </div>
-          <nav className="d-flex justify-content-center gap-lg-5 gap-2 align-content-center pt-2">
-            <a className="small" href="#about">About</a>
-            <a className="small" href="#services">Services</a>
-            <a className="small" href="#contact">Contact</a>
-          </nav>
-          <div className="d-flex justify-content-end w-auto">
-            <button className="btn btn-success"><span className="small">Book Now</span></button>
-          </div>
-        </header>
-        <div className="text-center">
-          <h1>Find serenity.</h1>
-          <p>Book your personalized healing retreat in Houston.</p>
-          <button className="btn btn-success">Start Booking</button>
+      <div className="hero text-light">
+        <div className="d-flex justify-content-center">
+          <Header />
         </div>
-      </div>
+        <div className="p-5 d-flex flex-column justify-content-center container">
+          <div className="text-start py-5">
+            <p className="lh-1">
+              <span className="text-uppercase ps-1 fs-2">Welcome to</span>
+              <br />
+              <span className="hero-text-big" style={{}}>
+                Houston
+              </span>{" "}
+              <br />
+              <span className="fs-5 ps-1">Recovery Home.</span>
+            </p>
+            <p className="fs-5 ps-1 ">
+              Book your stay and enjoy Luxury redefined at the most affordable
+              rates.
+            </p>
+          </div>
+        </div>
 
-      <div className="position-relative my-3">
-        <div className="booking-panel container position-absolute start-50 translate-middle-x rounded">
-          <div className="row">
-            <div className="col-xl-6 col-12 d-flex justify-content-start align-items-center">
-              <BookingForm booking={booking} setBooking={setBooking} />
+        <div className="container">
+          <div className="booking-panel rounded">
+            <BookingForm booking={booking} setBooking={setBooking} />
+          </div>
+
+          <div className="row p-4">
+            <div className="col"></div>
+            <div className="col-4 d-flex justify-content-center align-items-center">
+              <div className="btn btn-success btn-lg" onClick={handleViewRates}>
+                <span className="small">
+                  <BsFillCalendarRangeFill />
+                </span>{" "}
+                <span className="small"> Book Now</span>
+              </div>
             </div>
-            <div className="col-xl-4 col-8 d-flex justify-content-start align-items-center">
-              <GuestSelector booking={booking} setBooking={setBooking} />
-            </div>
-            <div className="col-xl-2 col-4 d-flex justify-content-end align-items-center">
-              <div className="py-4">
-                <p className="mb-2 invisible">...</p>
-                <div className="btn btn-success px-2 px-md-auto" onClick={handleViewRates}>
-                  <span className="small">View rates</span>
-                </div>
+            <div className="col">
+              <p>Choose Add-0n Services</p>
+              <div className="row">
+                <div className="col"></div>
+                <div className="col"></div>
+                <div className="col"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="pt-5">
-        {shouldShowAlert && (
-          <div className="alert alert-info text-center mx-auto w-75 alert-dismissible mt-4">
-            One extra day will be added for pre-arrival as per our booking
-            policy.
+      <div className="container py-5">
+        <h4 className="text-center">All our room types are including complementary breakfast</h4>
+        {[
+          {
+            title: "Luxury redefined",
+            description: "Our rooms are designed to transport you into an environment made for leisure. Take your mind off the day- to - day of home life and find a private paradise for yourself.",
+            image: roomtile1,
+          },
+          {
+            title: "Leave your worries in the sand",
+            description: "We love life at the beach. Being close to the ocean with access to endless sandy beach ensures a relaxed state of mind.It  seems like time stands still watching the  ocean.",
+            image: roomtile2,
+          },
+          {
+            title: "Standard Room",
+            description: "Comfortable room with all basic amenities.",
+            image: roomtile1,
+          },
+        ].map((room, idx) => (
+          <div key={idx} className="mb-4">
+            <RoomTile title={room.title} description={room.description} image={room.image} />
           </div>
-        )}
+        ))}
       </div>
+
+      <div className="carousle">
+        <Testimonials />
+      </div>
+
+    
 
       <footer className="text-center my-5">
         <p>&copy; 2023 Wellness Retreats. All rights reserved.</p>
