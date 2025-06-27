@@ -1,4 +1,3 @@
-
 interface RoomTileProps {
     title: string;
     description: string;
@@ -7,8 +6,7 @@ interface RoomTileProps {
     onButtonClick?: () => void;
 }
 
-const RoomTile: React.FC<RoomTileProps> = ({ title, description, image, buttonText = "Explore", onButtonClick,
-}) => {
+const RoomTile: React.FC<RoomTileProps> = ({ title, description, image, buttonText = "Explore", onButtonClick, }) => {
     return (
         <div className="room-tile">
             <div className="row align-items-center pt-lg-5 pt-3">

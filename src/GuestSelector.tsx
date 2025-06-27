@@ -1,7 +1,7 @@
+import type { BookingDetails } from "./App";
 import { useState } from "react";
 import { FaUserFriends } from "react-icons/fa";
 import { Modal, Button, Form } from "react-bootstrap";
-import type { BookingDetails } from "./App";
 
 type GuestSelectorProps = {
     booking: BookingDetails;
@@ -11,134 +11,87 @@ type GuestSelectorProps = {
 // ... your existing handlers
 const GuestSelector = ({ booking, setBooking }: GuestSelectorProps) => {
     const [showModal, setShowModal] = useState(false);
-    const { guests, guestNights } = booking;
-    const [wantsGuests, setWantsGuests] = useState<boolean>(false); // NEW toggle state
+    const { guests = 0, guestNights = 1 } = booking;
+    const wantsGuests = guests > 0;
 
     const generateLabel = () => {
         if (!wantsGuests) return "No guest selected";
 
-        if ((guests ?? 0) === 0 && (guestNights ?? 0) <= 1) {
-            return "Select guests";
-        }
-
-        return `${guests ?? 0} Guest${guests === 1 ? "" : "s"}, ${guestNights ?? 1} Night${guestNights === 1 ? "" : "s"}`;
+        return `${guests} Guest${guests === 1 ? "" : "s"}, ${guestNights} Night${guestNights === 1 ? "" : "s"}`;
     };
-
 
     return (
         <div className="guest-selector position-relative">
-            <Form.Group controlId="guestSwitch" className="">
+            <Form.Group controlId="guestSwitch">
                 <Form.Check
                     type="switch"
                     id="add-guests-switch"
                     label="Are you having guests?"
                     checked={wantsGuests}
                     onChange={() => {
-                        const wants = !wantsGuests;
-                        setWantsGuests(wants);
-
-                        if (!wants) {
+                        if (wantsGuests) {
                             setBooking((prev) => ({
                                 ...prev,
                                 guests: 0,
                                 guestNights: 1,
                             }));
                         } else {
-                            setShowModal(true); // optional auto-open
+                            setShowModal(true);
                         }
                     }}
                     className="small"
-
                 />
             </Form.Group>
 
             <div
-                className={`guest-label d-flex align-items-center border rounded p-2 ${wantsGuests ? "" : "bg-light text-muted"
-                    }`}
-                onClick={() => {
-                    if (wantsGuests) setShowModal(true); // only allow opening if wantsGuests is true
-                }}
+                className={`guest-label d-flex align-items-center border rounded p-2 ${wantsGuests ? "" : "bg-light text-muted"}`}
+                onClick={() => wantsGuests && setShowModal(true)}
                 style={{ cursor: wantsGuests ? "pointer" : "not-allowed" }}
             >
                 <FaUserFriends className="me-2" />
                 <span className="small">{generateLabel()}</span>
             </div>
 
-            <Modal
-                size="sm"
-                show={showModal}
-                onHide={() => setShowModal(false)}
-                centered
-            >
+            <Modal size="sm" show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Header closeButton className="py-2">
-                    <Modal.Title className="p-0">
-                        <span className="fs-6">Select Guest Info</span>
-                    </Modal.Title>
+                    <Modal.Title className="fs-6">Select Guest Info</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {/* Guests counter */}
                     <div className="guest-group mb-3">
                         <label>Total Guests</label>
                         <div className="counter">
-                            <button
-                                className="btn btn-success px-3"
-                                onClick={() =>
-                                    setBooking((prev) => ({
-                                        ...prev,
-                                        guests: Math.max(0, (prev.guests || 0) - 1),
-                                    }))
-                                }
-                            >
-                                -
-                            </button>
-                            <span className="mx-2 fs-5">{booking.guests || 0}</span>
-                            <button
-                                className="btn btn-success px-3"
-                                onClick={() =>
-                                    setBooking((prev) => ({
-                                        ...prev,
-                                        guests: (prev.guests || 0) + 1,
-                                    }))
-                                }
-                            >
-                                +
-                            </button>
+                            <button className="btn btn-success px-3" onClick={() => setBooking(prev => ({
+                                ...prev,
+                                guests: Math.max(0, guests - 1)
+                            }))}>-</button>
+                            <span className="mx-2 fs-5">{guests}</span>
+                            <button className="btn btn-success px-3" onClick={() => setBooking(prev => ({
+                                ...prev,
+                                guests: guests + 1
+                            }))}>+</button>
                         </div>
                     </div>
 
+                    {/* Guest nights counter */}
                     <div className="guest-group mb-3">
-                        <label>Number of guestNights</label>
+                        <label>Number of guest nights</label>
                         <div className="counter">
-                            <button
-                                className="btn btn-success px-3"
-                                onClick={() =>
-                                    setBooking((prev) => ({
-                                        ...prev,
-                                        guestNights: Math.max(1, (prev.guestNights || 0) - 1)
-                                    }))
-                                }
-                            >
-                                -
-                            </button>
-                            <span className="mx-2 fs-5">{booking.guestNights || 1}</span>
-                            <button
-                                className="btn btn-success px-3"
-                                onClick={() =>
-                                    setBooking((prev) => ({
-                                        ...prev,
-                                        guestNights: (prev.guestNights || 0) + 1,
-                                    }))
-                                }
-                            >
-                                +
-                            </button>
+                            <button className="btn btn-success px-3" onClick={() => setBooking(prev => ({
+                                ...prev,
+                                guestNights: Math.max(1, guestNights - 1)
+                            }))}>-</button>
+                            <span className="mx-2 fs-5">{guestNights}</span>
+                            <button className="btn btn-success px-3" onClick={() => setBooking(prev => ({
+                                ...prev,
+                                guestNights: guestNights + 1
+                            }))}>+</button>
                         </div>
                     </div>
                 </Modal.Body>
 
                 <Modal.Footer className="py-1">
-                    <Button variant="success" onClick={() => setShowModal(false)}>
-                        Done
-                    </Button>
+                    <Button variant="success" onClick={() => setShowModal(false)}>Done</Button>
                 </Modal.Footer>
             </Modal>
         </div>

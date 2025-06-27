@@ -2,12 +2,20 @@
   font-family: "imprima";
 }
 
-.hero {
+.homepage .hero {
   background-image: url(./assets/hero-bg.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
+
+.rooms .hero {
+  background-image: url(./assets/room-hero-bg.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .logo {
   width: 150px;
 }
@@ -83,4 +91,43 @@
   height: 75%;
   width: 2px;
   background: black;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 50px solid #14274a; /* Triangle color */
+}
+
+.align-icon-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem; /* space between icon and text */
+}
+
+.room-card .slick-slider {
+  position: relative;
+}
+
+.room-card .slick-dots {
+  position: absolute;
+  bottom: 20px; /* adjust as needed */
+  width: 100%;
+  display: flex !important;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: 2;
+}
+
+.room-card .slick-dots li button:before {
+  font-size: 0; /* hide default dot */
+}
+
+.room-card .slick-dots li.slick-active div {
+  background: #fff;
+  opacity: 1;
 }

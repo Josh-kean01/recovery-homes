@@ -1,37 +1,39 @@
 // Home.tsx
-import type { BookingDetails } from "./App";
 import { useNavigate } from "react-router-dom";
-import BookingForm from "./BookingForm";
-import RoomTile from "./components/RoomTile";
-import "./App.css";
-import Header from "./components/Header";
+import type { BookingDetails } from "../App";
+import BookingForm from "../BookingForm";
+import RoomTile from "../components/RoomTile";
+import Header from "../components/Header";
 import { BsFillCalendarRangeFill } from "react-icons/bs";
-import roomtile1 from "./assets/roomtile-1.jpg";
-import roomtile2 from "./assets/roomtile-2.jpg";
-import Testimonials from "./components/Testimonials";
+import roomtile1 from "../assets/roomtile-1.jpg";
+import roomtile2 from "../assets/roomtile-2.jpg";
+import Testimonials from "../components/Testimonials";
+import Footer from "../components/Footer";
+import "../App.css";
 // import Select from "react-select";
 
-type HomeProps = {
+type BookingProps = {
   booking: BookingDetails;
   setBooking: React.Dispatch<React.SetStateAction<BookingDetails>>;
 };
 
-const Home = ({ booking, setBooking }: HomeProps) => {
+
+const Home = ({ booking, setBooking }: BookingProps) => {
   const navigate = useNavigate();
 
   const handleViewRates = () => {
-    navigate("/summary", {
+    navigate("/rooms", {
       state: booking,
     });
   };
 
   return (
-    <div className="homepage position-relative">
-      <div className="hero text-light">
+    <div className="homepage position-relative p-0">
+      <div className="hero ">
         <div className="d-flex justify-content-center">
           <Header />
         </div>
-        <div className="p-5 d-flex flex-column justify-content-center container">
+        <div className="p-5 d-flex flex-column justify-content-center container text-light">
           <div className="text-start py-5">
             <p className="lh-1">
               <span className="text-uppercase ps-1 fs-2">Welcome to</span>
@@ -49,8 +51,8 @@ const Home = ({ booking, setBooking }: HomeProps) => {
           </div>
         </div>
 
-        <div className="container">
-          <div className="booking-panel rounded">
+        <div className="container px-lg-5" style={{ maxWidth: "1100px" }}>
+          <div className="container booking-panel rounded">
             <BookingForm booking={booking} setBooking={setBooking} />
           </div>
 
@@ -76,6 +78,7 @@ const Home = ({ booking, setBooking }: HomeProps) => {
         </div>
       </div>
 
+      {/* RoomTile */}
       <div className="container py-5">
         <h4 className="text-center">All our room types are including complementary breakfast</h4>
         {[
@@ -101,27 +104,15 @@ const Home = ({ booking, setBooking }: HomeProps) => {
         ))}
       </div>
 
-      <div className="carousle">
+      {/* Testimonials */}
+      <div className="carousel">
         <Testimonials />
       </div>
 
-    
-
-      <footer className="text-center my-5">
-        <p>&copy; 2023 Wellness Retreats. All rights reserved.</p>
-        <p>
-          Follow us on social media:
-          <a href="#" className="mx-2">
-            Facebook
-          </a>
-          <a href="#" className="mx-2">
-            Instagram
-          </a>
-          <a href="#" className="mx-2">
-            Twitter
-          </a>
-        </p>
-      </footer>
+      {/* Footer */}
+      <div className="pt-5">
+        <Footer />
+      </div>
     </div>
   );
 };

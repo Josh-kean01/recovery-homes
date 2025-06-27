@@ -62,8 +62,8 @@ const BookingForm = ({ booking, setBooking }: BookingFormProps) => {
           />
         </div>
 
-        <div className="col-1 col-md d-flex align-items-center justify-content-center  mt-5">
-          <FaLongArrowAltRight className="text-muted px-0 mx-md-2 " />
+        <div className="col-1 col-md d-flex align-items-center justify-content-center mt-5" style={{ maxWidth: "40px" }}>
+          <FaLongArrowAltRight className="text-muted px-0" />
         </div>
 
         <div className="col-6 col-md">
@@ -85,12 +85,12 @@ const BookingForm = ({ booking, setBooking }: BookingFormProps) => {
                 ? new Date(checkOutDate.getTime() - 86400000)
                 : undefined
             }
-            // disabled={!checkInDate}
+          // disabled={!checkInDate}
           />
         </div>
 
-        <div className="col-md d-flex align-items-center justify-content-center d-none d-lg-flex mt-5">
-          <FaLongArrowAltRight className="text-muted px-0 mx-md-2 " />
+        <div className="col-md d-flex align-items-center justify-content-center d-none d-md-flex mt-5" style={{ maxWidth: "40px" }}>
+          <FaLongArrowAltRight className="text-muted px-0" />
         </div>
 
         <div className="col-5 col-md ">
@@ -114,8 +114,8 @@ const BookingForm = ({ booking, setBooking }: BookingFormProps) => {
           />
         </div>
 
-        <div className="col-1 col-md d-flex align-items-center justify-content-center mt-5">
-          <FaLongArrowAltRight className="text-muted px-0 mx-md-2" />
+        <div className="col-1 col-md d-flex align-items-center justify-content-center mt-5" style={{ maxWidth: "40px" }}>
+          <FaLongArrowAltRight className="text-muted px-0 " />
         </div>
 
         <div className="col-6 col-md text-nowrap">
@@ -124,7 +124,7 @@ const BookingForm = ({ booking, setBooking }: BookingFormProps) => {
         </div>
 
         {shouldShowAlert && (
-          <div className="text-center pt-1 w-100">
+          <div className="text-center pt-1 w-100 ">
             One extra day will be added for pre-arrival as per our booking
             policy.
           </div>
